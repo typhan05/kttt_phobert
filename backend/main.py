@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+import os
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 import torch
 import numpy as np
 from scipy.spatial.distance import cosine
@@ -30,6 +32,9 @@ tokenizer = AutoTokenizer.from_pretrained("vinai/phobert-base")
 # Tải vector từ file .npy
 document_vectors = np.load("document_vectors.npy")
 document_index = np.load("document_index.npy", allow_pickle=True)
+
+# Đường dẫn thư mục chứa dữ liệu
+DATA_FOLDER = "data"
 
 # Hàm lấy embedding từ PhoBERT
 def get_embedding(text):
@@ -62,6 +67,18 @@ def search_similar_documents(query, top_k=5):
 @app.get("/api/search/")
 async def search(query: str, top_k: int = 5):
     return search_similar_documents(query, top_k)
+
+# API tải file theo filename
+@app.get("/api/download")
+async def download_file(filename: str):
+    # Đường dẫn đầy đủ đến file
+    file_path = os.path.join(DATA_FOLDER, filename)
+    
+    # Kiểm tra file có tồn tại không
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    return FileResponse(file_path, filename=os.path.basename(file_path))
 
 # Chạy API với Uvicorn
 if __name__ == "__main__":
