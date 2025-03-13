@@ -65,4 +65,6 @@ Start Frontend
   yarn dev
 ```
 
+Lưu Ý: Sửa file _.env.example_ => _.env_ và bỏ comment **NEXT_PUBLIC_BASE_URL** để call backend api
+
 => Server Frontend start http://localhost:3000
