@@ -1,0 +1,9 @@
+requests
+beautifulsoup4
+tqdm
+torch
+transformers
+numpy
+scipy
+fastapi
+uvicorn
