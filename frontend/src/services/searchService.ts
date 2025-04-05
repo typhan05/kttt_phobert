@@ -17,7 +17,7 @@ interface SearchParams {
 export const searchService = {
   getSearch: async (params: SearchParams): Promise<SearchResponse> => {
     try {
-      const response = await axiosInstance.get("/api/search", { params });
+      const response = await axiosInstance.get("/api_v1/search", { params });
       return response.data;
     } catch (error) {
       console.error("Search API error:", error);
@@ -28,7 +28,7 @@ export const searchService = {
     filename: string
   ): Promise<{ blob: Blob; filename: string }> => {
     try {
-      const response = await axiosInstance.get("/api/download", {
+      const response = await axiosInstance.get("/api_v1/download", {
         params: { filename }, // Send filename as query param
         responseType: "blob",
       });

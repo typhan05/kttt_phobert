@@ -13,7 +13,8 @@ origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
     "http://localhost",
-    "http://localhost:3000",
+    "http://localhost:3500",
+    "http://118.69.183.202:50721",
 ]
 
 app.add_middleware(
@@ -64,12 +65,12 @@ def search_similar_documents(query, top_k=5):
         }
 
 # API endpoint nhận query và trả về kết quả tìm kiếm
-@app.get("/api/search/")
+@app.get("/api_v1/search/")
 async def search(query: str, top_k: int = 5):
     return search_similar_documents(query, top_k)
 
 # API tải file theo filename
-@app.get("/api/download")
+@app.get("/api_v1/download")
 async def download_file(filename: str):
     # Đường dẫn đầy đủ đến file
     file_path = os.path.join(DATA_FOLDER, filename)
